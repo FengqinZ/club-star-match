@@ -1,36 +1,254 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 社团星图 — 社团招新智能匹配平台
 
-## Getting Started
+> 用智能匹配，帮新生找到真正适合自己的社团
 
-First, run the development server:
+## 一、项目简介
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+**社团星图**是一个面向高校新生的社团招新智能匹配平台。
+
+每年开学季，新生面对几十个社团不知道怎么选，社团招新靠微信群和表格效率低下，校方缺乏统一管理手段。社团星图通过**兴趣建档 → AI智能推荐 → 标准化对比 → 全流程报名管理**的完整链路，解决传统招新中的信息不对称、选择焦虑、流程混乱和管理低效问题。
+
+**核心定位：不只是社团信息展示站，而是一个覆盖新生、社团、校方三方的智能匹配与治理平台。**
+
+---
+
+## 二、解决什么问题
+
+| 痛点 | 现状 | 社团星图的方案 |
+|------|------|---------------|
+| **信息不对称** | 社团宣传千篇一律，看不出真实区别 | 标准化字段展示：时间投入、门槛、适合人群、不适合人群、往届反馈 |
+| **选择焦虑** | 几十个社团不知道怎么选，怕选错 | AI多维匹配 + 可解释推荐 + 横向对比 + AI择团顾问 |
+| **报名混乱** | 不同社团报名方式不统一，容易遗漏 | 统一报名入口 + 进度追踪 + 时间线提醒 |
+| **管理低效** | 社团招新靠表格，校方缺乏全局视角 | 社团标准化后台 + 校方治理数据面板 + 信息审核机制 |
+
+---
+
+## 三、产品架构
+
+```
+社团星图
+├── 新生端（C端主视角）
+│   ├── 智能建档（1分钟完成兴趣画像）
+│   ├── AI匹配推荐（精准推荐 / 探索模式 / 宝藏社团）
+│   ├── 社团发现（搜索 + 多维筛选 + 卡片/列表切换）
+│   ├── 社团横向对比（2-3个社团标准化字段比较）
+│   ├── 社团详情（标准化信息 + AI匹配解释 + 往届评价）
+│   ├── AI择团顾问（聊天式智能推荐，接入真实大语言模型）
+│   └── 报名管理（进度追踪 + 面试提醒 + 时间线）
+├── 社团端（B端）
+│   ├── 招新数据概览
+│   ├── 报名者管理（查看画像 + 匹配度 + 状态流转）
+│   └── 招新信息编辑（标准化字段填写）
+└── 校方管理端
+    ├── 招新总览（全校数据 + 热门/冷门分布 + 治理指标）
+    ├── 社团管理（列表 + 认证状态 + 核心数据）
+    └── 信息审核（审核队列 + 审核标准）
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 四、核心功能亮点
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 4.1 智能匹配（不只是打分，而是可解释推荐）
+- 基于兴趣方向、时间预算、参与目标、性格偏好多维计算
+- 每个推荐都有明确的匹配理由（如："与你的兴趣方向高度吻合"、"时间投入符合预期"）
+- 支持"精准推荐"和"探索看看"两种模式
+- "适合你但容易被忽略的社团"宝藏推荐专区
 
-## Learn More
+### 4.2 标准化对比（用数据辅助决策）
+- 支持2-3个社团横向比较
+- 对比字段：定位、活动频率、时间投入、招新门槛、面试形式、适合人群、不适合人群、留存率、满意度、往届反馈
+- 每个社团的信息格式统一，不再是各说各话
 
-To learn more about Next.js, take a look at the following resources:
+### 4.3 AI择团顾问（真实AI对话）
+- 接入大语言模型（DeepSeek），基于平台全部社团数据回答问题
+- 不是通用聊天机器人，而是专门针对社团选择场景的垂直AI顾问
+- 回答中自动关联社团卡片，可一键跳转查看详情
+- 未配置API时自动降级为预设回答演示模式
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 4.4 社团详情页（帮用户决策，不是帮社团宣传）
+- 标准化展示：时间投入、招新要求、面试形式、适合/不适合人群
+- AI匹配分析模块（基于用户画像的个性化解释）
+- 往届成员真实评价（带标签和评分）
+- 招新时间线可视化
+- 校方认证标识
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 4.5 报名管理（全流程透明）
+- 统一管理所有报名进度
+- 状态流转：已投递 → 审核中 → 待笔试/面试 → 已录取/未通过
+- 面试时间、地点、准备事项提醒
+- 招新小贴士（避免常见错误）
 
-## Deploy on Vercel
+### 4.6 社团端后台（B端价值）
+- 招新数据概览（报名数、匹配度分布、待处理数）
+- 报名者列表（含画像、匹配度、筛选功能）
+- 标准化招新信息编辑（提交后经校方审核）
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 4.7 校方管理后台（治理价值）
+- 全校招新数据看板
+- 热门/冷门社团分布监控
+- 风险提醒（信息不完整、时间冲突、报名入口缺失）
+- 平台治理指标（信息完整度、审核及时率、招新覆盖率）
+- 社团信息审核队列
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 五、技术栈
+
+| 技术 | 用途 |
+|------|------|
+| **Next.js 14** (App Router) | 前端框架 |
+| **TypeScript** | 类型安全 |
+| **Tailwind CSS** | 样式系统 |
+| **OpenAI SDK** | AI顾问API调用（兼容DeepSeek等） |
+| **Mock Data** | 12个完整社团 + 报名记录 + 用户画像 |
+
+---
+
+## 六、页面清单
+
+| # | 页面 | 路由 | 角色 | 核心功能 |
+|---|------|------|------|---------|
+| 1 | 首页 | `/` | 全局 | 产品价值展示 + 角色入口 + 推荐预览 |
+| 2 | 智能建档 | `/student/profile` | 新生 | 4步表单：兴趣/目标/性格/技能 |
+| 3 | AI匹配结果 | `/student/match` | 新生 | 推荐列表 + 宝藏社团 + 匹配解释 |
+| 4 | 社团发现 | `/student/discover` | 新生 | 搜索 + 筛选 + 对比勾选 |
+| 5 | 社团对比 | `/student/compare` | 新生 | 标准化横向对比表 |
+| 6 | 社团详情 | `/student/club?id=xxx` | 新生 | 完整信息 + AI分析 + 评价 |
+| 7 | AI择团顾问 | `/student/advisor` | 新生 | AI对话 + 社团推荐卡片 |
+| 8 | 报名管理 | `/student/applications` | 新生 | 进度追踪 + 时间线 + 提醒 |
+| 9 | 社团后台 | `/club/dashboard` | 社团 | 数据概览 + 报名者管理 + 信息编辑 |
+| 10 | 校方后台 | `/admin/dashboard` | 校方 | 招新总览 + 社团管理 + 信息审核 |
+
+---
+
+## 七、快速开始
+
+### 安装与运行
+
+```bash
+# 1. 安装依赖
+npm install
+
+# 2. 启动开发服务器
+npm run dev
+
+# 3. 打开浏览器
+# http://localhost:3000
+```
+
+5. 重启开发服务器
+
+> 不配置API也可以正常使用，AI顾问会自动切换到预设回答的演示模式。
+
+---
+
+## 八、推荐体验路线
+
+以下路线可以在3-5分钟内完整体验平台核心功能：
+
+```
+首页（了解平台价值）
+  ↓ 点击「开始智能匹配」
+智能建档（完成4步表单）
+  ↓ 点击「开始匹配」
+AI匹配结果（查看推荐 + 点击"为什么推荐给我"）
+  ↓ 点击任意社团
+社团详情（查看标准化信息 + AI分析 + 评价）
+  ↓ 返回，导航到「对比」
+社团对比（横向比较2-3个社团）
+  ↓ 导航到「AI顾问」
+AI择团顾问（提问或点击预设问题）
+  ↓ 导航到「报名管理」
+报名管理（查看进度时间线 + 提醒）
+  ↓ 顶部导航切换到「社团端」
+社团后台（数据概览 + 报名者管理 + 信息编辑）
+  ↓ 切换到「校方端」
+校方后台（招新总览 + 治理指标 + 审核队列）
+```
+
+---
+
+## 九、Mock数据说明
+
+平台内置12个完整社团数据，覆盖7个类别：
+
+| 社团 | 类别 | 热度 | 特点 |
+|------|------|------|------|
+| 科创工坊 | 科技 | 🔥热门 | 竞赛导向，零基础友好 |
+| 思辩社 | 学术 | 适中 | 辩论/演讲，提升表达 |
+| 光影社 | 文艺 | 🔥热门 | 摄影，零门槛，灵活 |
+| 微光志愿团 | 公益 | 🔥热门 | 志愿服务，时间灵活 |
+| Pulse舞团 | 文艺 | 🔥热门 | 街舞/K-pop，需投入 |
+| 飞翼篮球社 | 体育 | 适中 | 运动社交，免面试 |
+| 创行 Startup Lab | 创业 | 💎小众精品 | 创业孵化，高留存 |
+| 潮声新媒体 | 媒体 | 适中 | 内容创作，实战经验 |
+| 金融研习社 | 学术 | 💎小众精品 | 金融分析，实习对接 |
+| 绿行环保社 | 公益 | 💎小众精品 | 环保，最低时间投入 |
+| AI前沿研究社 | 科技 | 💎小众精品 | AI研究，有门槛 |
+| 幕间戏剧社 | 文艺 | 适中 | 话剧，强归属感 |
+
+每个社团包含完整字段：简介、标签、活动频率、时间投入、招新要求、面试形式、适合人群、不适合人群、核心活动、荣誉、往届评价、FAQ、招新时间线、满意度、留存率。
+
+---
+
+## 十、设计思考
+
+### 为什么要做"可解释推荐"？
+普通推荐系统只给一个分数，用户不知道为什么被推荐。社团星图的每个推荐都附带具体理由（兴趣匹配、时间匹配、目标契合等），让用户理解推荐逻辑，建立对平台的信任。
+
+### 为什么要区分"精准推荐"和"探索模式"？
+纯算法推荐容易陷入信息茧房，只推荐最像的内容。探索模式鼓励用户跳出舒适区，发现可能意想不到的选择。
+
+### 为什么详情页要展示"不适合什么人"？
+大多数社团宣传只说优点。但帮用户做出好决策，需要诚实地说明局限性。"不适合"比"适合"更有决策价值。
+
+### 为什么需要校方管理端？
+没有校方端，这只是一个学生做的小工具。有了校方端，这就是一个校级平台方案，体现了完整的治理视角和B/C/G三端思考。
+
+---
+
+## 十一、部署
+
+```bash
+# 构建生产版本
+npm run build
+
+# 启动生产服务器
+npm start
+```
+
+推荐使用 [Vercel](https://vercel.com) 一键部署（免费），获得在线访问链接用于提交作品。
+
+---
+
+## 十二、项目结构
+
+```
+src/
+├── app/                          # Next.js App Router 页面
+│   ├── page.tsx                  # 首页
+│   ├── layout.tsx                # 全局布局
+│   ├── globals.css               # 全局样式 + 组件样式
+│   ├── api/chat/route.ts         # AI顾问 API Route
+│   ├── student/                  # 新生端页面
+│   │   ├── profile/page.tsx      # 智能建档
+│   │   ├── match/page.tsx        # AI匹配结果
+│   │   ├── discover/page.tsx     # 社团发现
+│   │   ├── compare/              # 社团对比
+│   │   ├── club/                 # 社团详情
+│   │   ├── advisor/page.tsx      # AI择团顾问
+│   │   └── applications/page.tsx # 报名管理
+│   ├── club/dashboard/page.tsx   # 社团端后台
+│   └── admin/dashboard/page.tsx  # 校方管理后台
+├── components/                   # 可复用组件
+│   ├── layout/Navbar.tsx         # 导航栏
+│   └── ui/
+│       ├── ClubCard.tsx          # 社团卡片
+│       └── ScoreRing.tsx         # 匹配分数环形图
+└── data/                         # 数据层
+    ├── types.ts                  # TypeScript 类型定义
+    ├── clubs.ts                  # 社团 Mock 数据（12个）
+    ├── matching.ts               # 匹配算法逻辑
+    └── applications.ts           # 报名记录数据
+```
